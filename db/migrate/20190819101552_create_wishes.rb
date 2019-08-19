@@ -8,3 +8,5 @@ class CreateWishes < ActiveRecord::Migration[5.2]
     end
   end
 end
+
+Wish.create()
