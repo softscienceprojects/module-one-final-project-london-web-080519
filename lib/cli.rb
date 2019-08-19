@@ -44,8 +44,7 @@ class CommandLineInterface
 
     def enter_new_product
         p "You are gonna enter a new product!"
-        new_wish = Wish.create(user_id: get_user_by_username.id)
-        new_wish
+    
     end
 
 end
