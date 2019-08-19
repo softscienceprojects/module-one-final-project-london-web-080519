@@ -3,6 +3,7 @@ Bundler.require
 
 require 'active_record'
 require 'rake'
+require 'tty-prompt'
 
 require_all 'app'
 
