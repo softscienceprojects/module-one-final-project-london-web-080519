@@ -13,6 +13,13 @@ class CommandLineInterface
     end
 
     def greet
+        p "  __      __.__       .__  "
+        p " /  \    /  \__| _____|  |__ "
+        p " \   \/\/   /  |/  ___/  |  \ "
+        p "  \        /|  |\___ \|   Y  \ "
+        p "   \__/\  / |__/____  >___|  / "
+        p "        \/          \/     \/ "
+ 
         p "Welcome!"
         get_response = prompt.select("What would you like to do?", ['Make a Wish', 'Find a Wish'])
             #get their response
