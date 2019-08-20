@@ -39,9 +39,8 @@ class CommandLineInterface
         puts "You have selected Find a Wish. Please enter the username of the Wish you want to find: "
         get_user_by_username
         puts "These are all the wishes associated with this username: "
-       # see_all_wishes  
-       options_screen
-       #@logged_in_user.describe_all_wishes
+        options_screen
+        return_to_options
     end
 
     def get_user_by_username
@@ -68,7 +67,7 @@ class CommandLineInterface
 
         Wish.create(quantity: wish_qty, occasion: option_choice, user_id: logged_in_user.id, product_id: Product.last.id)
         puts "Congratulations! Your Wish has been made."
-        options_screen
+        return_to_options
     end
 
     def options_screen
@@ -94,11 +93,15 @@ class CommandLineInterface
     end
 
     def see_all_wishes
+       @logged_in_user.wishes.reload
        @logged_in_user.describe_all_wishes
-    #    prompt.keypress("Press any key to go back to the options screen")
-    #    options_screen      
     end
     
+    def return_to_options
+        prompt.keypress("Press any key to go back to the options screen")
+        options_screen   
+    end
+
     def update_or_delete_a_wish
         see_all_wishes
         their_selection = prompt.ask("Please select the wish you would like to update or delete: ")
@@ -111,17 +114,15 @@ class CommandLineInterface
                      if yes_or_no == "Yes"
                         wish_to_edit.destroy
                     else
-                        options_screen
+                        return_to_options
                     end
             when "Update"
                 puts "Your Wish quantity is #{wish_to_edit.quantity}. What would you like to change it to?"
                 new_quantity = gets.chomp
-                wish_to_edit.update(:quantity => new_quantity)
+                wish_to_edit.update(quantity: new_quantity)
                 puts "your Wish quantity is now #{wish_to_edit.quantity}"
-                options_screen
+                return_to_options
         end
-        #get the index that they pass in
-        #edit or delete the index that
         
     end
 
