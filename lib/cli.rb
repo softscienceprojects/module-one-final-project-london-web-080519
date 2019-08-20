@@ -40,7 +40,6 @@ class CommandLineInterface
         get_user_by_username
         puts "These are all the wishes associated with this username: "
         options_screen
-        return_to_options
     end
 
     def get_user_by_username
@@ -81,6 +80,7 @@ class CommandLineInterface
         case option_choice
             when 1
                 see_all_wishes
+                return_to_options
             when 2
                 enter_new_product
             when 3
@@ -106,13 +106,15 @@ class CommandLineInterface
         see_all_wishes
         their_selection = prompt.ask("Please select the wish you would like to update or delete: ")
         wish_to_edit = Wish.find(their_selection)
-        update_or_delete = prompt.select("Would you like to update or delete?", ["Update", "Delete"])
+        update_or_delete = prompt.select("Would you like to update or delete a wish?", ["Update", "Delete", "Cancel and go back to options"])
         case update_or_delete 
             when "Delete"
                 "Are you sure?"
                     yes_or_no = prompt.select("Are you sure?", ["Yes", "No"])
                      if yes_or_no == "Yes"
                         wish_to_edit.destroy
+                        "Your wish has been deleted"
+                        return_to_options
                     else
                         return_to_options
                     end
@@ -123,7 +125,6 @@ class CommandLineInterface
                 puts "your Wish quantity is now #{wish_to_edit.quantity}"
                 return_to_options
         end
-        
     end
 
 end
