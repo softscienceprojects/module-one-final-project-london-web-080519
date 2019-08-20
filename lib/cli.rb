@@ -1,6 +1,6 @@
-#require 'pry'
+require 'pry'
 class CommandLineInterface
-    attr_reader :logged_in_user
+    attr_accessor :logged_in_user
 
     def initialize
         @logged_in_user = nil
@@ -39,14 +39,14 @@ class CommandLineInterface
         puts "You have selected Find a Wish. Please enter the username of the Wish you want to find: "
         get_user_by_username
         puts "These are all the wishes associated with this username: "
-        #show_all_wishes
+       # see_all_wishes  
+       options_screen
+       #@logged_in_user.describe_all_wishes
     end
 
     def get_user_by_username
         the_username = prompt.ask()
-        instance_of_user = User.find_or_create_by(username: the_username)
-        @logged_in_user = instance_of_user
-       
+        @logged_in_user = User.find_or_create_by(username: the_username)
     end
 
     def enter_new_product
@@ -85,7 +85,7 @@ class CommandLineInterface
             when 2
                 enter_new_product
             when 3
-                #update or delete a wish
+                update_or_delete_a_wish
             when 4
                 find_a_wish
             when 5
@@ -94,16 +94,36 @@ class CommandLineInterface
     end
 
     def see_all_wishes
-        ## through User class
-        # Wish.all.select{|wish| wish.user_id == @logged_in_user.id }
-        # Wish ID - show them their product name - wish quantity, for occasion. #Price
-        # URL 
-        
-
-        Wish.where("wish.user_id = @logged_in_user.id")
-        #User.find(Wish.last.user_id).username
+       @logged_in_user.describe_all_wishes
+    #    prompt.keypress("Press any key to go back to the options screen")
+    #    options_screen      
     end
     
+    def update_or_delete_a_wish
+        see_all_wishes
+        their_selection = prompt.ask("Please select the wish you would like to update or delete: ")
+        wish_to_edit = Wish.find(their_selection)
+        update_or_delete = prompt.select("Would you like to update or delete?", ["Update", "Delete"])
+        case update_or_delete 
+            when "Delete"
+                "Are you sure?"
+                    yes_or_no = prompt.select("Are you sure?", ["Yes", "No"])
+                     if yes_or_no == "Yes"
+                        wish_to_edit.destroy
+                    else
+                        options_screen
+                    end
+            when "Update"
+                puts "Your Wish quantity is #{wish_to_edit.quantity}. What would you like to change it to?"
+                new_quantity = gets.chomp
+                wish_to_edit.update(:quantity => new_quantity)
+                puts "your Wish quantity is now #{wish_to_edit.quantity}"
+                options_screen
+        end
+        #get the index that they pass in
+        #edit or delete the index that
+        
+    end
 
 end
 
