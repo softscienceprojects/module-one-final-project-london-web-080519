@@ -1,4 +1,4 @@
-require_relative '../lib/cli.rb'
+require_relative '../config/environment.rb'
 
 
 new_cli = CommandLineInterface.new
