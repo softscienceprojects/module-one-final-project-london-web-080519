@@ -38,7 +38,7 @@ class CommandLineInterface
     def find_a_wish
         puts "You have selected Find a Wish. Please enter the username of the Wish you want to find: "
         get_user_by_username
-        puts "These are all the wishes associated with this username: "
+        see_all_wishes
         options_screen
     end
 
@@ -103,28 +103,30 @@ class CommandLineInterface
     end
 
     def update_or_delete_a_wish
-        see_all_wishes
-        their_selection = prompt.ask("Please select the wish you would like to update or delete: ")
-        wish_to_edit = Wish.find(their_selection)
-        update_or_delete = prompt.select("Would you like to update or delete a wish?", ["Update", "Delete", "Cancel and go back to options"])
-        case update_or_delete 
-            when "Delete"
-                "Are you sure?"
-                    yes_or_no = prompt.select("Are you sure?", ["Yes", "No"])
-                     if yes_or_no == "Yes"
-                        wish_to_edit.destroy
-                        "Your wish has been deleted"
-                        return_to_options
-                    else
-                        return_to_options
-                    end
-            when "Update"
-                puts "Your Wish quantity is #{wish_to_edit.quantity}. What would you like to change it to?"
-                new_quantity = gets.chomp
-                wish_to_edit.update(quantity: new_quantity)
-                puts "your Wish quantity is now #{wish_to_edit.quantity}"
-                return_to_options
+        if see_all_wishes != nil
+            their_selection = prompt.ask("Please select the wish you would like to update or delete: ")
+            wish_to_edit = Wish.find(their_selection)
+            update_or_delete = prompt.select("Would you like to update or delete a wish?", ["Update", "Delete", "Cancel and go back to options"])
+            case update_or_delete 
+                when "Delete"
+                    "Are you sure?"
+                        yes_or_no = prompt.select("Are you sure?", ["Yes", "No"])
+                        if yes_or_no == "Yes"
+                            wish_to_edit.destroy
+                            puts "Your wish has been deleted"
+                            return_to_options
+                        # else
+                        #     return_to_options
+                        end
+                when "Update"
+                    puts "Your Wish quantity is #{wish_to_edit.quantity}. What would you like to change it to?"
+                    new_quantity = gets.chomp
+                    wish_to_edit.update(quantity: new_quantity)
+                    puts "your Wish quantity is now #{wish_to_edit.quantity}"
+                    # return_to_options
+            end
         end
+        return_to_options
     end
 
 end

@@ -8,7 +8,7 @@ require_relative "../app/models/user.rb"
 
 
 ###PRODUCTS
-#Product.create(name: , url: , price: , delivery_in_days: )
+##Product.create(name: , url: , price: , delivery_in_days: )
 
 # Product.create(name: "The Photograph as Contemporary Art", url: "https://www.amazon.co.uk/Photograph-Contemporary-Art-World/dp/0500204187?pf_rd_p=11fde720-7879-4501-be51-0bf1ad6e0ba1&pd_rd_wg=8BbpJ&pf_rd_r=2J8CWMHG37G2D5C4NK5X&ref_=pd_gw_qpp&pd_rd_w=ka365&pd_rd_r=97c15a6f-a876-4e9a-a0e4-a334a6684645", price: 11.31, delivery_in_days: 14)
 
@@ -21,11 +21,7 @@ require_relative "../app/models/user.rb"
 # Product.create(name: "Fountain pen Kaweco classic sport black M", url: "https://www.amazon.co.uk/Kaweco-Sport-Classic-Fountain-black/dp/B006CQSVIY?pf_rd_p=43a0c38b-793a-4c8f-8d81-3eec68ea2d41&pd_rd_wg=WQiIT&pf_rd_r=18SCFEQ7JKGWGA62MVFP&ref_=pd_gw_wish&pd_rd_w=zgb6x&pd_rd_r=9dc04a7b-0810-4f1c-8eed-c862d26d22ec", price: 17.99, delivery_in_days: 2)
 
 ####WISHES
-
-# #Wish.create(quantity: , occasion: , user_id: , product_id: )
+##Wish.create(quantity: , occasion: , user_id: , product_id: )
 
 Wish.create(quantity: 1, occasion: "Birthday", user_id: 2, product_id: 1)
 Wish.create(quantity: 2, occasion: "Anniversary", user_id: 1, product_id: 2)
-# Wish.create(quantity: 1, occasion: , user_id: , product_id: )
-# Wish.create(quantity: , occasion: , user_id: , product_id: )
-# Wish.create(quantity: , occasion: , user_id: , product_id: )

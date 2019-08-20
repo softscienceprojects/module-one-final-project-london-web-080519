@@ -15,9 +15,10 @@ class User < ActiveRecord::Base
     end
 
     def describe_all_wishes
-        if self.wishes.user_id == nil
-            "There are no Wishes yet. Enter a Wish to get started!"
+        if self.wishes.empty?
+            puts "There are no Wishes yet. Enter a Wish to get started!"
         else
+            puts "These are all the wishes associated with this username: "
             puts "You wished for "
             self.wishes.map {|wish| puts "#{wish.id} - #{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"}
         end
