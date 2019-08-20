@@ -2,6 +2,9 @@ class User < ActiveRecord::Base
     has_many :wishes
     has_many :products, through: :wishes
 
+    validates :username, presence: true
+
+
     #As a User, I want to add a new Product
     #and associate it to a Wish
 
