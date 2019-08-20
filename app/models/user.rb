@@ -8,10 +8,13 @@ class User < ActiveRecord::Base
     def create_a_wish
         #Product.new(name: , url: , price: , delivery_in_days: )
 
-        
     end
 
     #As a User, I want to see all my wishes
+
+    def see_all_my_wishes
+        CommandLineInterface.
+    end
 
 
     #As a User, I want to create a new product
