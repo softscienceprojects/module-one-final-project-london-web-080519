@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
             puts "There are no Wishes yet. Enter a Wish to get started!"
         else
             puts "These are all the wishes associated with this username: "
-            puts "You wished for "
+           # puts "You wished for "
             self.wishes.map {|wish| puts "#{wish.id} - #{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"}
         end
     end

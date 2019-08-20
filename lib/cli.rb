@@ -52,9 +52,11 @@ class CommandLineInterface
         product_url = prompt.ask("What's the URL of where we can find the product? http://www.")
         product_price = prompt.ask("How much does it cost?")
         product_delivery = prompt.ask("How many days will it take to arrive?")
+        
         Product.create(name: product_name, url: product_url, price: product_price, delivery_in_days: product_delivery)
         create_a_wish
     end
+
 
     def create_a_wish
         wish_qty = prompt.ask("Please enter how many #{Product.last.name} you would like to receive:")
@@ -66,10 +68,12 @@ class CommandLineInterface
 
         Wish.create(quantity: wish_qty, occasion: option_choice, user_id: logged_in_user.id, product_id: Product.last.id)
         puts "Congratulations! Your Wish has been made."
+       # `say #{"Huzzah"}`
         return_to_options
     end
 
     def options_screen
+      #  `say #{"You have so many options"}`
         option_choice = prompt.select("What would you like to do next?") do |menu|
             menu.choice 'See all your Wishes', 1
             menu.choice 'Create a new Wish', 2
@@ -103,9 +107,9 @@ class CommandLineInterface
     end
 
     def update_or_delete_a_wish
-        if see_all_wishes != nil
-            their_selection = prompt.ask("Please select the wish you would like to update or delete: ")
-            wish_to_edit = Wish.find(their_selection)
+        if @logged_in_user.wishes != nil
+            my_wishes_to_edit = @logged_in_user.wishes.map {|wish| "#{wish.product.name}"}
+            their_selection = prompt.select('Please select the wish you would like to update or delete:', my_wishes_to_edit)
             update_or_delete = prompt.select("Would you like to update or delete a wish?", ["Update", "Delete", "Cancel and go back to options"])
             case update_or_delete 
                 when "Delete"
