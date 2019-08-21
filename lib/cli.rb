@@ -82,6 +82,7 @@ class CommandLineInterface
         option_choice = prompt.select("What would you like to do next?", options) 
     end
 
+
     def see_all_wishes
        system 'clear'
        @logged_in_user.wishes.reload
@@ -89,7 +90,7 @@ class CommandLineInterface
        if @logged_in_user.wishes.empty?
         return_to_options
        end
-       prompt.select("\n Would you like to filter these wishes?", [{"Yes"=>-> do filter_wishes end}, {"No"=>-> do return_to_options end}])
+       prompt.select("\n Would you like to filter these wishes?", [{"Yes"=>-> do filter_wishes end}, {"No, return to options"=>-> do return_to_options end}, {'Make a Wish come true'=>-> do open_a_wish end},])
     end
 
     def filter_wishes
@@ -139,6 +140,14 @@ class CommandLineInterface
     end
 
 
+    def open_a_wish 
+        their_selection = prompt.select("Select a Wish from the below that you would like to purchase:", @logged_in_user.show_users_their_wishes)
+        wish_to_open = Product.find_associated_wish(their_selection)
+        @logged_in_user.select_a_wish(wish_to_open)
+        return_to_options
+    end
+
+
     def update_or_delete_a_wish
         if @logged_in_user.wishes.empty?
             see_all_wishes
@@ -148,13 +157,14 @@ class CommandLineInterface
             wish_to_edit = Product.find_associated_wish(their_selection)
             update_or_delete = prompt.select("Would you like to update or delete a wish?", ["UPDATE", "DELETE", "CANCEL and go back to options"])
             case update_or_delete 
-                when "Delete"
-                prompt.select("Are you sure?", [{"Yes"=>-> do Wish.delete_associated_wish(wish_to_edit) end}, {"No"=>-> do puts "Your wish has been deleted" end}])
-                when "Update"
+                when "DELETE"
+                prompt.select("Are you sure?", [{"Yes"=>-> do Wish.delete_associated_wish(wish_to_edit) end}, {"No"=>-> do return_to_options end}])
+                when "UPDATE"
                     puts "You have asked for #{wish_to_edit.quantity} of #{their_selection}. What would you like to change it to?"
                     new_quantity = gets.chomp
                     wish_to_edit.update(quantity: new_quantity)
                     puts "your Wish quantity is now #{wish_to_edit.quantity}"
+                    return_to_options
             end
         end
         return_to_options

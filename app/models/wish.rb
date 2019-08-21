@@ -20,4 +20,6 @@ validates :occasion, presence: true
         self.destroy(their_wish.id)
     end
 
+
+
 end

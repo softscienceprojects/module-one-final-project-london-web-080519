@@ -10,6 +10,10 @@ class User < ActiveRecord::Base
         self.wishes
     end
 
+    def show_users_their_wishes
+        self.wishes.map {|wish| "#{wish.product.name}"}
+    end
+
     def wish_text
         "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"
     end
@@ -34,13 +38,18 @@ class User < ActiveRecord::Base
 
     def sort_wishes_by_occasion(occasion)
         occasion_selected =  self.see_all_my_wishes.where(occasion: occasion)
-        occasion_selected.map {|wish| puts "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"}
+        occasion_selected.map {|wish| puts "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each."}
     end
 
     def sort_wishes_by_date_created
         created_at = self.see_all_my_wishes.order(:created_at)
-        created_at.map {|wish| puts "WISH MADE on #{wish.created_at.to_date}: #{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"}
-      end
+        created_at.map {|wish| puts "WISH MADE on #{wish.created_at.to_date}: #{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each."}
+    end
 
+    def select_a_wish(wish_id)
+        selected_wish = self.see_all_my_wishes.where(id: wish_id)
+        url_to_open = "http://www." + "#{selected_wish.first.product.url}" +"/"
+        system("open", url_to_open)
+    end
 
 end

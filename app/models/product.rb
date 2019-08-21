@@ -20,4 +20,9 @@ class Product < ActiveRecord::Base
         Wish.find_by("product_id = ?", find_wish)
     end
 
+    def make_a_wish_come_true
+        new_string = "http://www."+ self.url
+        open new_string
+    end
+
 end
