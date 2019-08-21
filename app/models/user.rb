@@ -28,14 +28,19 @@ class User < ActiveRecord::Base
         else
             puts "These are all the wishes associated with this username: "
            # puts "You wished for "
-            self.wishes.map {|wish| puts "#{wish.id} - #{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"}
+            self.wishes.map {|wish| puts "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"}
         end
     end
 
     #As a User, I want to create a new product
     #and associated it to a wish
     #As a User, I want to select a product and delete it
- 
-    
+
+    def show_wishes_by_date_time
+
+    end
+    # - [ ] Advanced method : filter all wishes by date/time
+    # - [ ] advanced method: filter all wishes by price
+    # - [ ] advanced method: split URL to grab the retailer name  
 
 end

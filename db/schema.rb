@@ -17,6 +17,8 @@ ActiveRecord::Schema.define(version: 2019_08_19_101735) do
     t.string "url"
     t.float "price"
     t.integer "delivery_in_days"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -28,6 +30,8 @@ ActiveRecord::Schema.define(version: 2019_08_19_101735) do
     t.string "occasion"
     t.integer "user_id"
     t.integer "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

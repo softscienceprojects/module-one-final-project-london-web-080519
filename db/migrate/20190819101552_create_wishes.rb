@@ -5,6 +5,8 @@ class CreateWishes < ActiveRecord::Migration[5.2]
       t.string :occasion
       t.integer :user_id
       t.integer :product_id
+
+      t.timestamps
     end
   end
 end
