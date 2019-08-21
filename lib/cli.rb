@@ -7,20 +7,13 @@ class CommandLineInterface
     end
 
     def prompt
-        prompt = TTY::Prompt.new
+        prompt = TTY::Prompt.new(active_color: :cyan, help_color: :cyan)
         prompt
     end
 
 
     def greet
-        puts "  __      __.__       .__  "
-        puts " /  \    /  \__| _____|  |__ "
-        puts " \   \/\/   /  |/  ___/  |  \ "
-        puts "  \        /|  |\___ \|   Y  \ "
-        puts "   \__/\  / |__/____  >___|  /"
-        puts "        \/          \/     \/ "
- 
-        p "Welcome!"
+        welcome_to_wish
         get_response = prompt.select("What would you like to do?", ['Make a Wish', 'Find a Wish'])
             #get their response
             if  get_response == 'Make a Wish'
@@ -31,12 +24,14 @@ class CommandLineInterface
     end
     
     def make_a_wish
+        system 'clear'
         puts "You have selected Make a Wish. Please enter your username: "
         get_user_by_username
         enter_new_product
     end
 
     def find_a_wish
+        system 'clear'
         puts "You have selected Find a Wish. Please enter the username of the Wish you want to find: "
         get_user_by_username
         see_all_wishes
@@ -49,6 +44,7 @@ class CommandLineInterface
     end
 
     def enter_new_product
+        system 'clear'
         product_name = prompt.ask("What is the product called?")
         product_url = prompt.ask("What's the URL of where we can find the product? http://www.")
         product_price = prompt.ask("How much does it cost?")
@@ -66,6 +62,7 @@ class CommandLineInterface
             menu.choice 'Wedding'
             menu.choice 'Anniversary'
         end
+        system 'clear'
         Wish.create(quantity: wish_qty, occasion: option_choice, user_id: logged_in_user.id, product_id: Product.last.id)
         puts "Congratulations! Your Wish has been made."
         return_to_options
@@ -77,6 +74,7 @@ class CommandLineInterface
     end
 
     def options_screen
+        system 'clear'
         option_choice = prompt.select("What would you like to do next?") do |menu|
             menu.choice 'See all your Wishes', 1
             menu.choice 'Create a new Wish', 2
@@ -100,6 +98,7 @@ class CommandLineInterface
     end
 
     def see_all_wishes
+       system 'clear'
        @logged_in_user.wishes.reload
        binding.pry
        @logged_in_user.describe_all_wishes
