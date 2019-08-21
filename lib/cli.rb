@@ -70,7 +70,7 @@ class CommandLineInterface
     def options_screen
         system 'clear'
         options = [
-            {'SEE all your Wishes' => -> do see_all_wishes end},
+            {'SEE Wishes' => -> do see_all_wishes end},
             {'CREATE a new Wish'=>-> do enter_new_product end},
             {'UPDATE or delete a Wish'=>-> do update_or_delete_a_wish end},
             {'FIND someone else\'s wishes'=>-> do find_a_wish end},
@@ -163,7 +163,7 @@ class CommandLineInterface
                     puts "You have asked for #{wish_to_edit.quantity} of #{their_selection}. What would you like to change it to?"
                     new_quantity = gets.chomp
                     wish_to_edit.update(quantity: new_quantity)
-                    puts "your Wish quantity is now #{wish_to_edit.quantity}"
+                    puts "Your Wish quantity is now #{wish_to_edit.quantity}"
                     return_to_options
             end
         end
