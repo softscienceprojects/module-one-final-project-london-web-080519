@@ -14,9 +14,8 @@ class CommandLineInterface
 
     def greet
         welcome_to_wish
-        get_response = prompt.select("What would you like to do?", [{'Make a Wish'=> -> do make_a_wish end}, {'Find a Wish'=>-> do find_a_wish end}])
+        get_response = prompt.select("What would you like to do?", [{'MAKE a Wish'=> -> do make_a_wish end}, {'FIND a Wish'=>-> do find_a_wish end}])
     end
-
 
 
     def make_a_wish
@@ -60,7 +59,7 @@ class CommandLineInterface
         end
         system 'clear'
         Wish.create(quantity: wish_qty, occasion: option_choice, user_id: logged_in_user.id, product_id: Product.last.id)
-        puts "Congratulations! Your Wish has been made."
+        you_made_a_wish
         return_to_options
     end
 
@@ -72,11 +71,11 @@ class CommandLineInterface
     def options_screen
         system 'clear'
         options = [
-            {'See all your Wishes' => -> do see_all_wishes end},
-            {'Create a new Wish'=>-> do enter_new_product end},
-            {'Update or delete a Wish'=>-> do update_or_delete_a_wish end},
-            {'Find someone else\'s wishes'=>-> do find_a_wish end},
-            {'Exit Wish'=>-> do puts "Thank you for using Wish. Good-bye!" 
+            {'SEE all your Wishes' => -> do see_all_wishes end},
+            {'CREATE a new Wish'=>-> do enter_new_product end},
+            {'UPDATE or delete a Wish'=>-> do update_or_delete_a_wish end},
+            {'FIND someone else\'s wishes'=>-> do find_a_wish end},
+            {'EXIT Wish'=>-> do exit_wish 
             exit 
             end}
         ]
@@ -91,15 +90,15 @@ class CommandLineInterface
        if @logged_in_user.wishes.empty?
         return_to_options
        end
-       prompt.select("Would you like to filter these wishes?", [{"Yes"=>-> do filter_wishes end}, {"No"=>-> do return_to_options end}])
+       prompt.select("\n Would you like to filter these wishes?", [{"Yes"=>-> do filter_wishes end}, {"No"=>-> do return_to_options end}])
     end
 
     def filter_wishes
         options = [
-            {'Get wishes in a price bracket'=>-> do get_wishes_in_price_bracket end},
-            {'Get wishes by quantity (low to high)'=>-> do order_wishes_by_quantity_ascending end},
-            {'Get wishes by occasion'=>-> do get_wishes_by_occasion end},
-            {'Cancel and go back to main menu'=>-> do options_screen end}
+            {'Get wishes in a PRICE BRACKET'=>-> do get_wishes_in_price_bracket end},
+            {'Get wishes by QUANTITY (low to high)'=>-> do order_wishes_by_quantity_ascending end},
+            {'Get wishes by OCCASION'=>-> do get_wishes_by_occasion end},
+            {'BACK to main menu'=>-> do options_screen end}
         ]
         option_choice = prompt.select("How would you like to filter the results?", options) 
     end
@@ -116,9 +115,9 @@ class CommandLineInterface
     end
 
     def get_wishes_in_price_bracket
-        puts "Enter the minimum you will spend:"
+        puts "Enter the MINIMUM you will spend:"
         min = gets.chomp.to_f
-        puts "Enter the maximum you wish to spend:"
+        puts "Enter the MAXIMUM you wish to spend:"
         max = gets.chomp.to_f
         puts "Here are the wishes in that price range:"
         @logged_in_user.wishes_in_range(min, max)
@@ -132,7 +131,7 @@ class CommandLineInterface
         if @logged_in_user.wishes != nil
             their_selection = prompt.select('Please select the wish you would like to update or delete:', @logged_in_user.show_users_their_wishes)
             wish_to_edit = Product.find_associated_wish(their_selection)
-            update_or_delete = prompt.select("Would you like to update or delete a wish?", ["Update", "Delete", "Cancel and go back to options"])
+            update_or_delete = prompt.select("Would you like to update or delete a wish?", ["UPDATE", "DELETE", "CANCEL and go back to options"])
             case update_or_delete 
                 when "Delete"
                 prompt.select("Are you sure?", [{"Yes"=>-> do Wish.delete_associated_wish(wish_to_edit) end}, {"No"=>-> do puts "Your wish has been deleted" end}])
