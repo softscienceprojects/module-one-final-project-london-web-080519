@@ -11,6 +11,7 @@ class CommandLineInterface
         prompt
     end
 
+
     def greet
         puts "  __      __.__       .__  "
         puts " /  \    /  \__| _____|  |__ "
@@ -65,15 +66,17 @@ class CommandLineInterface
             menu.choice 'Wedding'
             menu.choice 'Anniversary'
         end
-
         Wish.create(quantity: wish_qty, occasion: option_choice, user_id: logged_in_user.id, product_id: Product.last.id)
         puts "Congratulations! Your Wish has been made."
-       # `say #{"Huzzah"}`
         return_to_options
     end
 
+    def return_to_options
+        prompt.keypress("Press any key to go back to the options screen")
+        options_screen   
+    end
+
     def options_screen
-      #  `say #{"You have so many options"}`
         option_choice = prompt.select("What would you like to do next?") do |menu|
             menu.choice 'See all your Wishes', 1
             menu.choice 'Create a new Wish', 2
@@ -84,7 +87,6 @@ class CommandLineInterface
         case option_choice
             when 1
                 see_all_wishes
-                return_to_options
             when 2
                 enter_new_product
             when 3
@@ -93,18 +95,16 @@ class CommandLineInterface
                 find_a_wish
             when 5
                 puts "Thank you for using Wish. Good-bye!"
+                exit
         end
     end
 
     def see_all_wishes
        @logged_in_user.wishes.reload
        @logged_in_user.describe_all_wishes
+       return_to_options
     end
-    
-    def return_to_options
-        prompt.keypress("Press any key to go back to the options screen")
-        options_screen   
-    end
+
 
     def update_or_delete_a_wish
         if @logged_in_user.wishes != nil
