@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
 
     #[ ] advanced method: filter all wishes by price
     def show_wishes_by_price
-        see_all_my_wishes.order()
+        see_all_my_wishes
     end
 
     def high_to_low
