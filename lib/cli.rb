@@ -116,7 +116,8 @@ class CommandLineInterface
                     "Are you sure?"
                         yes_or_no = prompt.select("Are you sure?", ["Yes", "No"])
                         if yes_or_no == "Yes"
-                            wish_to_edit.destroy
+                            binding.pry
+                            @logged_in_user.delete_a_wish(their_selection)
                             puts "Your wish has been deleted"
                             return_to_options
                         # else

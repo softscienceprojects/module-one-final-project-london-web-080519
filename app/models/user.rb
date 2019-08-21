@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
     def see_all_my_wishes
         self.wishes.find(self.id)
     end
-
+    
     def describe_all_wishes
         if self.wishes.empty?
             puts "There are no Wishes yet. Enter a Wish to get started!"

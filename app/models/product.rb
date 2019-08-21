@@ -11,4 +11,10 @@ class Product < ActiveRecord::Base
         "#{name}, £#{price}"
     end
 
+    def see_all_products
+        #see what everyone else has wished for to 'get ideas'
+
+    end
+
+
 end
