@@ -1,3 +1,4 @@
+require 'pry'
 class User < ActiveRecord::Base
     has_many :wishes
     has_many :products, through: :wishes
@@ -5,20 +6,12 @@ class User < ActiveRecord::Base
     validates :username, presence: true
 
 
-    #As a User, I want to add a new Product
-    #and associate it to a Wish
-
-    def create_a_wish
-        #Product.new(name: , url: , price: , delivery_in_days: )
-    end
-
-    #As a User, I want to see all my wishes
     def see_all_my_wishes
         self.wishes
     end
 
-    def show_users_their_wishes
-        self.wishes.map {|wish| "#{wish.product.name}"}
+    def wish_text
+        "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"
     end
 
 
@@ -27,32 +20,23 @@ class User < ActiveRecord::Base
             puts "There are no Wishes yet. Enter a Wish to get started!"
         else
             puts "These are all the wishes associated with this username: "
-           # puts "You wished for "
             self.wishes.map {|wish| puts "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"}
         end
     end
 
-    #As a User, I want to create a new product
-    #and associated it to a wish
-    #As a User, I want to select a product and delete it
 
-    def show_wishes_by_date_time
-        describe_all_wishes[:date]
+   def wishes_by_quantity_ascending
+     puts "These are all the wishes associated with this username, ordered by quantity:"
+        self.see_all_my_wishes.order(:quantity).map {|wish| puts "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"}
+   end
+
+    def wishes_in_range(low, high)
+        self.see_all_my_wishes.select {|wish| wish.product.price > low && wish.product.price < high }.map{|wish| puts "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"}
     end
 
-    #[ ] advanced method: filter all wishes by price
-    def show_wishes_by_price
-        see_all_my_wishes
+    def sort_wishes_by_occasion(occasion)
+        puts "These are all the wishes associated with this username, for the occasion - #{occasion}."
+        occasion_selected =  self.see_all_my_wishes.where(occasion: occasion)
+        occasion_selected.map {|wish| puts "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"}
     end
-
-    def high_to_low
-
-    end
-
-    def low_to_high
-    end
-
-    # - [ ] Advanced method : filter all wishes by date/time
-    # - [ ] advanced method: split URL to grab the retailer name  
-
 end

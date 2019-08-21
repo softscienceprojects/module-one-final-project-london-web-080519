@@ -14,15 +14,11 @@ class CommandLineInterface
 
     def greet
         welcome_to_wish
-        get_response = prompt.select("What would you like to do?", ['Make a Wish', 'Find a Wish'])
-            #get their response
-            if  get_response == 'Make a Wish'
-                make_a_wish
-            else
-                find_a_wish
-            end
+        get_response = prompt.select("What would you like to do?", [{'Make a Wish'=> -> do make_a_wish end}, {'Find a Wish'=>-> do find_a_wish end}])
     end
-    
+
+
+
     def make_a_wish
         system 'clear'
         puts "You have selected Make a Wish. Please enter your username: "
@@ -75,50 +71,71 @@ class CommandLineInterface
 
     def options_screen
         system 'clear'
-        option_choice = prompt.select("What would you like to do next?") do |menu|
-            menu.choice 'See all your Wishes', 1
-            menu.choice 'Create a new Wish', 2
-            menu.choice 'Update or delete a Wish', 3
-            menu.choice 'Find someone else\'s wishes', 4
-            menu.choice 'Exit Wish', 5
-        end
-        case option_choice
-            when 1
-                see_all_wishes
-            when 2
-                enter_new_product
-            when 3
-                update_or_delete_a_wish
-            when 4
-                find_a_wish
-            when 5
-                puts "Thank you for using Wish. Good-bye!"
-                exit
-        end
+        options = [
+            {'See all your Wishes' => -> do see_all_wishes end},
+            {'Create a new Wish'=>-> do enter_new_product end},
+            {'Update or delete a Wish'=>-> do update_or_delete_a_wish end},
+            {'Find someone else\'s wishes'=>-> do find_a_wish end},
+            {'Exit Wish'=>-> do puts "Thank you for using Wish. Good-bye!" 
+            exit 
+            end}
+        ]
+        
+        option_choice = prompt.select("What would you like to do next?", options) 
     end
 
     def see_all_wishes
        system 'clear'
        @logged_in_user.wishes.reload
-       binding.pry
        @logged_in_user.describe_all_wishes
-       return_to_options
+       if @logged_in_user.wishes.empty?
+        return_to_options
+       end
+       prompt.select("Would you like to filter these wishes?", [{"Yes"=>-> do filter_wishes end}, {"No"=>-> do return_to_options end}])
     end
 
+    def filter_wishes
+        options = [
+            {'Get wishes in a price bracket'=>-> do get_wishes_in_price_bracket end},
+            {'Get wishes by quantity (low to high)'=>-> do order_wishes_by_quantity_ascending end},
+            {'Get wishes by occasion'=>-> do get_wishes_by_occasion end},
+            {'Cancel and go back to main menu'=>-> do options_screen end}
+        ]
+        option_choice = prompt.select("How would you like to filter the results?", options) 
+    end
+
+    def get_wishes_by_occasion
+        occasion = prompt.select("What occasion would you like to see Wishes for?", ["Birthday", "Wedding", "Anniversary"])
+        @logged_in_user.sort_wishes_by_occasion(occasion)
+        return_to_options
+    end
+
+    def order_wishes_by_quantity_ascending
+        @logged_in_user.wishes_by_quantity_ascending
+        return_to_options
+    end
+
+    def get_wishes_in_price_bracket
+        puts "Enter the minimum you will spend:"
+        min = gets.chomp.to_f
+        puts "Enter the maximum you wish to spend:"
+        max = gets.chomp.to_f
+        puts "Here are the wishes in that price range:"
+        @logged_in_user.wishes_in_range(min, max)
+        return_to_options
+    end
 
     def update_or_delete_a_wish
+        if @logged_in_user.wishes.empty?
+            see_all_wishes
+        end
         if @logged_in_user.wishes != nil
             their_selection = prompt.select('Please select the wish you would like to update or delete:', @logged_in_user.show_users_their_wishes)
             wish_to_edit = Product.find_associated_wish(their_selection)
             update_or_delete = prompt.select("Would you like to update or delete a wish?", ["Update", "Delete", "Cancel and go back to options"])
             case update_or_delete 
                 when "Delete"
-                    "Are you sure?"
-                        yes_or_no = prompt.select("Are you sure?", ["Yes", "No"])
-                        if yes_or_no == "Yes"
-                            Wish.delete_associated_wish(wish_to_edit)
-                            puts "Your wish has been deleted"
-                        end
+                prompt.select("Are you sure?", [{"Yes"=>-> do Wish.delete_associated_wish(wish_to_edit) end}, {"No"=>-> do puts "Your wish has been deleted" end}])
                 when "Update"
                     puts "You have asked for #{wish_to_edit.quantity} of #{their_selection}. What would you like to change it to?"
                     new_quantity = gets.chomp
@@ -128,6 +145,7 @@ class CommandLineInterface
         end
         return_to_options
     end
+
 
 end
 

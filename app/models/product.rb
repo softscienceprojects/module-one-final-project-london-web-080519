@@ -26,8 +26,12 @@ class Product < ActiveRecord::Base
         Wish.find_by("product_id = ?", find_wish)
     end
 
-    def filter_products_by_price #low to high
+    def self.price_low_to_high #low to high
         self.order(:price)
     end
-    
+
+    def self.price_high_to_low
+        self.order(price: :desc)
+    end
+
 end
