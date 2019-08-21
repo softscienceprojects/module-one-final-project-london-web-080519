@@ -16,7 +16,12 @@ class User < ActiveRecord::Base
     def see_all_my_wishes
         self.wishes.find(self.id)
     end
-    
+
+    def show_users_their_wishes
+        self.wishes.map {|wish| "#{wish.product.name}"}
+    end
+
+
     def describe_all_wishes
         if self.wishes.empty?
             puts "There are no Wishes yet. Enter a Wish to get started!"
@@ -28,10 +33,9 @@ class User < ActiveRecord::Base
     end
 
     #As a User, I want to create a new product
-
     #and associated it to a wish
-
     #As a User, I want to select a product and delete it
  
+    
 
 end

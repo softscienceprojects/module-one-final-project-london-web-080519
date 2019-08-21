@@ -108,27 +108,22 @@ class CommandLineInterface
 
     def update_or_delete_a_wish
         if @logged_in_user.wishes != nil
-            my_wishes_to_edit = @logged_in_user.wishes.map {|wish| "#{wish.product.name}"}
-            their_selection = prompt.select('Please select the wish you would like to update or delete:', my_wishes_to_edit)
+            their_selection = prompt.select('Please select the wish you would like to update or delete:', @logged_in_user.show_users_their_wishes)
+            wish_to_edit = Product.find_associated_wish(their_selection)
             update_or_delete = prompt.select("Would you like to update or delete a wish?", ["Update", "Delete", "Cancel and go back to options"])
             case update_or_delete 
                 when "Delete"
                     "Are you sure?"
                         yes_or_no = prompt.select("Are you sure?", ["Yes", "No"])
                         if yes_or_no == "Yes"
-                            binding.pry
-                            @logged_in_user.delete_a_wish(their_selection)
+                            Wish.delete_associated_wish(wish_to_edit)
                             puts "Your wish has been deleted"
-                            return_to_options
-                        # else
-                        #     return_to_options
                         end
                 when "Update"
-                    puts "Your Wish quantity is #{wish_to_edit.quantity}. What would you like to change it to?"
+                    puts "You have asked for #{wish_to_edit.quantity} of #{their_selection}. What would you like to change it to?"
                     new_quantity = gets.chomp
                     wish_to_edit.update(quantity: new_quantity)
                     puts "your Wish quantity is now #{wish_to_edit.quantity}"
-                    # return_to_options
             end
         end
         return_to_options
