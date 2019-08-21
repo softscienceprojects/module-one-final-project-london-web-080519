@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
     end
 
     def wish_text
-        "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"
+        "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each."
     end
 
     def describe_all_wishes
@@ -23,17 +23,17 @@ class User < ActiveRecord::Base
             puts "There are no Wishes yet. Enter a Wish to get started!"
         else
             puts "These are all the wishes associated with this username: "
-            self.wishes.map {|wish| puts "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"}
+            self.wishes.map {|wish| puts "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each."}
         end
     end
 
 
    def wishes_by_quantity_ascending
-        self.see_all_my_wishes.order(:quantity).map {|wish| puts "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"}
+        self.see_all_my_wishes.order(:quantity).map {|wish| puts "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each."}
    end
 
     def wishes_in_range(low, high)
-        self.see_all_my_wishes.select {|wish| wish.product.price > low && wish.product.price < high }.map{|wish| puts "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"}
+        self.see_all_my_wishes.select {|wish| wish.product.price > low && wish.product.price < high }.map{|wish| puts "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each."}
     end
 
     def sort_wishes_by_occasion(occasion)
