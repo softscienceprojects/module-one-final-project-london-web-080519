@@ -101,6 +101,7 @@ class CommandLineInterface
 
     def see_all_wishes
        @logged_in_user.wishes.reload
+       binding.pry
        @logged_in_user.describe_all_wishes
        return_to_options
     end

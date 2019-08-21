@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
 
     #As a User, I want to see all my wishes
     def see_all_my_wishes
-        self.wishes.find(self.id)
+        self.wishes
     end
 
     def show_users_their_wishes
@@ -37,10 +37,22 @@ class User < ActiveRecord::Base
     #As a User, I want to select a product and delete it
 
     def show_wishes_by_date_time
+        describe_all_wishes[:date]
+    end
+
+    #[ ] advanced method: filter all wishes by price
+    def show_wishes_by_price
+        see_all_my_wishes.order()
+    end
+
+    def high_to_low
 
     end
+
+    def low_to_high
+    end
+
     # - [ ] Advanced method : filter all wishes by date/time
-    # - [ ] advanced method: filter all wishes by price
     # - [ ] advanced method: split URL to grab the retailer name  
 
 end
