@@ -1,0 +1,13 @@
+FILTERING
+Get inspired and see everything everyone has wished for
+Product.all 
+
+See wishes in a delivery timeframe
+"How many days until you need to give this wish?"
+# filter results by less than <3, <7, 8+
+
+See wishes by when they were added
+"this wish was made on {date}"
+
+Filter by the supplier
+

@@ -49,7 +49,6 @@ class CommandLineInterface
         create_a_wish
     end
 
-
     def create_a_wish
         wish_qty = prompt.ask("Please enter how many #{Product.last.name} you would like to receive:")
         option_choice = prompt.select("Please select the occasion this wish is for:") do |menu|
@@ -75,11 +74,11 @@ class CommandLineInterface
             {'CREATE a new Wish'=>-> do enter_new_product end},
             {'UPDATE or delete a Wish'=>-> do update_or_delete_a_wish end},
             {'FIND someone else\'s wishes'=>-> do find_a_wish end},
+            {'GET INSPIRED and see what everyone has wished for'=>-> do see_all_products end},
             {'EXIT Wish'=>-> do exit_wish 
             exit 
             end}
         ]
-        
         option_choice = prompt.select("What would you like to do next?", options) 
     end
 
@@ -98,18 +97,27 @@ class CommandLineInterface
             {'Get wishes in a PRICE BRACKET'=>-> do get_wishes_in_price_bracket end},
             {'Get wishes by QUANTITY (low to high)'=>-> do order_wishes_by_quantity_ascending end},
             {'Get wishes by OCCASION'=>-> do get_wishes_by_occasion end},
+            {'Get wishes by DATE CREATED'=>-> do get_wishes_by_date end},
             {'BACK to main menu'=>-> do options_screen end}
         ]
         option_choice = prompt.select("How would you like to filter the results?", options) 
     end
 
+    def get_wishes_by_date
+        puts "These are all the wishes associated with this username, listed by date created"
+        @logged_in_user.sort_wishes_by_date_created
+        return_to_options
+    end
+
     def get_wishes_by_occasion
         occasion = prompt.select("What occasion would you like to see Wishes for?", ["Birthday", "Wedding", "Anniversary"])
+        puts "These are all the wishes associated with this username, for the occasion - #{occasion}."
         @logged_in_user.sort_wishes_by_occasion(occasion)
         return_to_options
     end
 
     def order_wishes_by_quantity_ascending
+        puts "These are all the wishes associated with this username, ordered by quantity:"
         @logged_in_user.wishes_by_quantity_ascending
         return_to_options
     end
@@ -123,6 +131,13 @@ class CommandLineInterface
         @logged_in_user.wishes_in_range(min, max)
         return_to_options
     end
+
+    def see_all_products
+        puts "These are all the products people have wished for:"
+        Product.product_inspiration
+        return_to_options
+    end
+
 
     def update_or_delete_a_wish
         if @logged_in_user.wishes.empty?

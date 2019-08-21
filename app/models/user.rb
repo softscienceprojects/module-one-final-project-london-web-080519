@@ -14,7 +14,6 @@ class User < ActiveRecord::Base
         "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"
     end
 
-
     def describe_all_wishes
         if self.wishes.empty?
             puts "There are no Wishes yet. Enter a Wish to get started!"
@@ -26,7 +25,6 @@ class User < ActiveRecord::Base
 
 
    def wishes_by_quantity_ascending
-     puts "These are all the wishes associated with this username, ordered by quantity:"
         self.see_all_my_wishes.order(:quantity).map {|wish| puts "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"}
    end
 
@@ -35,8 +33,14 @@ class User < ActiveRecord::Base
     end
 
     def sort_wishes_by_occasion(occasion)
-        puts "These are all the wishes associated with this username, for the occasion - #{occasion}."
         occasion_selected =  self.see_all_my_wishes.where(occasion: occasion)
         occasion_selected.map {|wish| puts "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"}
     end
+
+    def sort_wishes_by_date_created
+        created_at = self.see_all_my_wishes.order(:created_at)
+        created_at.map {|wish| puts "WISH MADE on #{wish.created_at.to_date}: #{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each and is available from #{wish.product.url}"}
+      end
+
+
 end
