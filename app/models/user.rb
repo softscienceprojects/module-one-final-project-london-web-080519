@@ -5,13 +5,24 @@ class User < ActiveRecord::Base
 
     validates :username, presence: true
 
+    def a_method_used_for_validation_purposes
+        errors.add(:username, "Username cannot be blank")
+    end
+
+    def show_error_message
+        if self.username.blank?
+        end
+        # if self.valid? == false
+        #     self.errors.on(:username)
+        # end
+    end
 
     def see_all_my_wishes
-        self.wishes
+        self.wishes.reload
     end
 
     def show_users_their_wishes
-        self.wishes.map {|wish| "#{wish.product.name}"}
+        self.see_all_my_wishes.map {|wish| "#{wish.product.name}"}
     end
 
     def wish_text
@@ -19,11 +30,11 @@ class User < ActiveRecord::Base
     end
 
     def describe_all_wishes
-        if self.wishes.empty?
+        if self.see_all_my_wishes.empty?
             puts "There are no Wishes yet. Enter a Wish to get started!"
         else
             puts "These are all the wishes associated with this username: "
-            self.wishes.map {|wish| puts "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each."}
+            self.see_all_my_wishes.map {|wish| puts "#{wish.quantity}x #{wish.product.name} that costs #{wish.product.price} each."}
         end
     end
 

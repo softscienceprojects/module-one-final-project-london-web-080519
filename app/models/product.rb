@@ -5,6 +5,10 @@ class Product < ActiveRecord::Base
     validates :name, presence: true
     validates :url, presence: true
     validates :price, presence: true
+    validates_numericality_of :price
+    validates_numericality_of :delivery_in_days, :only_integer => true
+
+
 
 
     def self.product_inspiration
