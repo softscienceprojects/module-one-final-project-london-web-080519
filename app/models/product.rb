@@ -23,7 +23,7 @@ class Product < ActiveRecord::Base
 
 
     def self.product_inspiration
-        self.all.map {|product| puts "+ #{product.name}, £#{product.price} available from #{product.url} \n\n"}
+        self.all.map {|product| puts "⬡ #{product.name}, £#{product.price} \n\n"}
     end
 
     def self.get_id_of_product_name(product_name)
