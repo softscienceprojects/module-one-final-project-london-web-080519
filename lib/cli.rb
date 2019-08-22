@@ -73,12 +73,15 @@ class CommandLineInterface
         create_a_wish
     end
 
+    def try_wish_again
+        create_a_wish
+    end
+
     def create_a_wish
         wish_qty = prompt.ask("Please enter how many #{Product.last.name} you would like to receive:")
-        if wish_qty.class != Integer || wish_qty.class != Float
-            puts "\n ERROR! Please enter quantity as a number." 
-             wish_qty = prompt.ask("Please enter how many #{Product.last.name} you would like to receive:")
-        end
+        # if wish_qty.class != Integer || wish_qty.class != Float
+        #     puts "ERROR! Please enter quantity as a number."
+        # end
 
         option_choice = prompt.select("Please select the occasion this wish is for:") do |menu|
             menu.choice 'Birthday'
