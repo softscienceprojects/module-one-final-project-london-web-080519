@@ -7,7 +7,3 @@ FILTER
 
 UPDATE - 
 Update occasion
-
-DELETE
-working again?!!
-
