@@ -1,13 +1,12 @@
 require 'bundler/setup'
 Bundler.require
 
-require 'active_record'
-require 'rake'
-require 'tty-prompt'
-
 require_all 'app'
+require_all 'lib'
+
 
 ActiveRecord::Base.establish_connection(
     adapter: 'sqlite3', 
     database: './db/development.db')
-require_all 'lib'
+
+ActiveRecord::Base.logger = nil
