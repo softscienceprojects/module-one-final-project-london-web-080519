@@ -35,7 +35,10 @@ class CommandLineInterface
     def get_user_by_username
         the_username = prompt.ask()
         @logged_in_user = User.find_or_create_by(username: the_username)
-        @logged_in_user.show_error_message
+        if the_username == nil
+            @logged_in_user.show_error_message
+            make_a_wish
+        end
     end
 
     def find_user_by_username
@@ -52,15 +55,21 @@ class CommandLineInterface
         end
     end
 
+
     def enter_new_product
         system 'clear'
         product_name = prompt.ask("What is the product called?")
         product_url = prompt.ask("What's the URL of where we can find the product? http://www.")
         product_price = prompt.ask("How much does it cost?")
-
         product_delivery = prompt.ask("How many days will it take to arrive?")
         
-        Product.create(name: product_name, url: product_url, price: product_price, delivery_in_days: product_delivery)
+        new_product = Product.make_new_product(product_name, product_url, product_price, product_delivery)
+        
+        if new_product.id == nil
+            puts "\n ERROR! We can't save your wish until the errors above are corrected."
+            return_to_options
+        end
+       # Product.create(name: product_name, url: product_url, price: product_price, delivery_in_days: product_delivery)
         create_a_wish
     end
 

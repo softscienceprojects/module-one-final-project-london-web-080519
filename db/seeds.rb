@@ -1,15 +1,12 @@
 require_relative "../app/models/user.rb"
 
-User.create(username: "erinnicole")
-User.create(username: "benburney46")
-User.create(username: "twiddle-wakka")
-User.create(username: "starshine")
-User.create(username: "hawaiian_dolphin")
+
 User.create(username: "erin")
 User.create(username: "will")
-
-
-
+User.create(username: "mum")
+User.create(username: "dad")
+User.create(username: "bro")
+User.create(username: "sis")
 
 ###PRODUCTS
 ##Product.create(name: , url: , price: , delivery_in_days: )

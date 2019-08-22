@@ -8,7 +8,18 @@ class Product < ActiveRecord::Base
     validates_numericality_of :price
     validates_numericality_of :delivery_in_days, :only_integer => true
 
+    def self.show_error_message(new_product)
+        if new_product.errors.messages.map { |field, error| puts "#{field.upcase}: #{error[0]}." }
+        end
+    end
 
+    def self.make_new_product(product_name, product_url, product_price, product_delivery)
+        new_product = self.create(name: product_name, url: product_url, price: product_price, delivery_in_days: product_delivery)
+        if new_product.errors.messages.keys.nil? == false
+            self.show_error_message(new_product)
+        end
+        new_product
+    end
 
 
     def self.product_inspiration
