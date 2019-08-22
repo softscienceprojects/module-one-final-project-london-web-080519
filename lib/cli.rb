@@ -19,8 +19,7 @@ class CommandLineInterface
 
 
     def make_a_wish
-        system 'clear'
-        puts "You have selected Make a Wish. Please enter your username: "
+        puts "You have selected Make a Wish. Please enter your chosen username: "
         get_user_by_username
         enter_new_product
     end
@@ -28,7 +27,7 @@ class CommandLineInterface
     def find_a_wish
         system 'clear'
         puts "You have selected Find a Wish. Please enter the username of the Wish you want to find: "
-        get_user_by_username
+        find_user_by_username
         see_all_wishes
         options_screen
     end
@@ -36,6 +35,19 @@ class CommandLineInterface
     def get_user_by_username
         the_username = prompt.ask()
         @logged_in_user = User.find_or_create_by(username: the_username)
+    end
+
+    def find_user_by_username
+        the_username = prompt.ask()
+        if  User.find_by(username: the_username)
+            @logged_in_user = User.find_by(username: the_username)
+        else
+            puts "There is no user by the username, #{the_username}!"
+            prompt.select("\n Please choose whether you would like to try again or exit", [{"SEARCH again"=>-> do find_a_wish end}, {"START again"=>-> do greet end}, {"EXIT"=>-> do exit_wish
+                exit 
+            end},])
+
+        end
     end
 
     def enter_new_product
