@@ -2,8 +2,9 @@ class Wish < ActiveRecord::Base
 belongs_to :user
 belongs_to :product
 
-validates :quantity, presence: true
-validates :occasion, presence: true
+# validates :quantity, presence: true
+# validates_numericality_of :quantity, :only_integer => true
+
 
     def update_a_wish(their_wish)
     end
