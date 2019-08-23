@@ -7,7 +7,7 @@ require 'tty/box'
     font = TTY::Font.new(:standard)
     system 'clear'
     puts pastel.cyan(font.write('Welcome To'))
-    puts pastel.cyan(font.write('  * - WISH - *'))
+    puts pastel.magenta(font.write('  * - WISH - *'))
     puts pastel.white("Wish helps you and your loved ones keep track of the")
     puts pastel.white("presents and gifts that you would love to receive.")
   end
@@ -17,7 +17,7 @@ require 'tty/box'
     font = TTY::Font.new(:standard)
     system 'clear'
     puts pastel.cyan(font.write('You   Made   A'))
-    puts pastel.cyan(font.write(' *  - WISH -  *'))
+    puts pastel.magenta(font.write(' *  - WISH -  *'))
   end
 
   def exit_wish

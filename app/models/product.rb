@@ -36,8 +36,8 @@ class Product < ActiveRecord::Base
     end
 
     def make_a_wish_come_true
-        new_string = "http://www."+ self.url
-        open new_string
+       # new_string = "http://www."+ self.url
+        open self.url
     end
 
 end

@@ -58,8 +58,8 @@ class CommandLineInterface
 
     def enter_new_product
         system 'clear'
-        product_name = prompt.ask("What is the product called?")
-        product_url = prompt.ask("What's the URL of where we can find the product? http://www.")
+        product_name = prompt.ask("What is the product you would like to wish for called?")
+        product_url = prompt.ask("What's the URL of where we can find the product?")
         product_price = prompt.ask("How much does it cost?")
         product_delivery = prompt.ask("How many days will it take to arrive?")
         
