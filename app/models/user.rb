@@ -57,7 +57,7 @@ class User < ActiveRecord::Base
 
     def select_a_wish(wish_id)
         selected_wish = self.see_all_my_wishes.where("id = ?", wish_id)
-        url_to_open = "http://www." + "#{selected_wish.first.product.url}" +"/"
+        url_to_open = "#{selected_wish.first.product.url}" +"/"
         system("open", url_to_open)
     end
 
