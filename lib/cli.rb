@@ -143,7 +143,11 @@ class CommandLineInterface
     def get_wishes_by_occasion
         occasion = prompt.select("What occasion would you like to see Wishes for?", ["Birthday", "Wedding", "Anniversary"])
         puts "These are all the wishes associated with this username, for the occasion - #{occasion}."
-        @logged_in_user.sort_wishes_by_occasion(occasion)
+        result = @logged_in_user.sort_wishes_by_occasion(occasion)
+        if result.empty? 
+            puts "There are no wishes for that occasion!"
+        end
+        result
         return_to_options
     end
 
@@ -159,7 +163,11 @@ class CommandLineInterface
         puts "Enter the MAXIMUM you wish to spend:"
         max = gets.chomp.to_f
         puts "Here are the wishes in that price range:"
-        @logged_in_user.wishes_in_range(min, max)
+        results = @logged_in_user.wishes_in_range(min, max)
+        if results.empty?
+            puts "There are no wishes in that price range!"
+        end
+        results
         return_to_options
     end
 
