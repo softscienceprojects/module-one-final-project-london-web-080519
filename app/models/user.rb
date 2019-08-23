@@ -23,9 +23,9 @@ class User < ActiveRecord::Base
         self.see_all_my_wishes.map {|wish| "#{wish.product.name}"}
     end
 
-    def wish_text
-        "#{wish.quantity}x #{wish.product.name} that costs £#{wish.product.price} each."
-    end
+    # def wish_text
+    #     "#{wish.quantity}x #{wish.product.name} that costs £#{wish.product.price} each."
+    # end
 
     def describe_all_wishes
         if self.see_all_my_wishes.empty?
